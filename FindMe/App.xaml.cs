@@ -1,11 +1,14 @@
 ﻿using Xamarin.Forms;
+using FindMe.Views;
 
 namespace FindMe
 {
-    public class App : Application
+    public partial class App : Application
     {
         public App()
         {
+            InitializeComponent();
+
             // The root page of your application
             var mainPage = new SignInPage();
             var navPage = new NavigationPage(mainPage)

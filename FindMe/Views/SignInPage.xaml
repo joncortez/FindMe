@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+<local:PageKeyboardAware xmlns="http://xamarin.com/schemas/2014/forms"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 			 xmlns:local="clr-namespace:FindMe.Views;assembly=FindMe"
-			 x:Class="FindMe.SignInPage">
+			 x:Class="FindMe.Views.SignInPage">
 	<ContentPage.Resources>
 		<ResourceDictionary>
 			<Style x:Key="WelcomeStyle" TargetType="Label">
@@ -20,6 +20,61 @@
                         Android="18"
                         WinPhone="22" />
                 </Setter>
+            </Style>
+            <Style x:Key="LineEntryStyle" TargetType="local:LineEntry">
+                <Setter Property="BorderColor" Value="White" />
+                <Setter Property="PlaceholderColor" Value="White" />
+                <Setter Property="TextColor">
+                    <OnPlatform x:TypeArguments="Color"
+                        iOS="White"
+                        Android="White"
+                        WinPhone="Black" />
+                </Setter>
+                <Setter Property="FontSize" Value="18" />
+                <Setter Property="FontFamily">
+                    <OnPlatform x:TypeArguments="x:String"
+                        iOS="Source Sans Pro Regular"
+                        Android="SourceSansPro-Regular.ttf"
+                        WinPhone="\Assets\Fonts\SourceSansPro-Regular.ttf#Source Sans Pro Regular" />
+                </Setter>
+            </Style>
+            <Style x:Key="ButtonStyle" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="BorderColor" Value="White" />
+                <Setter Property="BorderRadius" Value="20" />
+                <Setter Property="BorderWidth" Value="2" />
+                <Setter Property="WidthRequest" Value="150" />
+                <Setter Property="FontFamily">
+                    <OnPlatform x:TypeArguments="x:String"
+                        iOS="Source Sans Pro Semibold"
+                        Android="SourceSansPro-Semibold.ttf"
+                        WinPhone="\Assets\Fonts\SourceSansPro-Semibold.ttf#Source Sans Pro Semibold" />
+                </Setter>
+                <Setter Property="FontSize">
+                    <OnPlatform x:TypeArguments="x:Double"
+                        iOS="18"
+                        Android="18"
+                        WinPhone="26" />
+                </Setter>
+                <Setter Property="FontAttributes" Value="Bold" />
+
+                <!-- TODO: Check with Xamarin why Triggers do not work -->
+                <!--<Style.Triggers>
+                    <MultiTrigger TargetType="Button">
+                        <MultiTrigger.Conditions>
+                            <BindingCondition Binding="{Binding Source={x:Reference EmailAddress}, Path=Text.Length, Converter={StaticResource dataHasBeenEntered}}" 
+                                              Value="true" />
+                            <BindingCondition Binding="{Binding Source={x:Reference EventCode}, Path=Text.Length, Converter={StaticResource dataHasBeenEntered}}" 
+                                              Value="true" />
+                        </MultiTrigger.Conditions>
+                        <Setter Property="IsEnabled" Value="True" />
+                    </MultiTrigger>
+                </Style.Triggers>-->
+
+            </Style>
+            <Style x:Key="ActivityIndicatorStyle" TargetType="ActivityIndicator">
+                <Setter Property="Color" Value="White" />
             </Style>
 		</ResourceDictionary>
 	</ContentPage.Resources>
@@ -57,6 +112,48 @@
                 <local:LabelWithCustomFont Text="Welcome, please enter your email and event code." Style="{StaticResource WelcomeStyle}" />
             </StackLayout>
 
+            <StackLayout HorizontalOptions="Center" VerticalOptions="Center" Grid.Row="1" Grid.Column="0">
+                <StackLayout Spacing="15">
+                    <local:LineEntry x:Name="EmailAddress"
+                                     Placeholder="Email"
+                                     Text="{Binding Email, Mode=TwoWay}"
+                                     Style="{StaticResource LineEntryStyle}" />
+
+                    <local:LineEntry x:Name="EventCode"
+                                     Placeholder="Event Code"
+                                     Text="{Binding EventCode, Mode=TwoWay}"
+                                     Style="{StaticResource LineEntryStyle}" />                    
+                </StackLayout>
+                <StackLayout Padding="20">
+                    
+                    <!-- TODO: Check with Xamarin why Triggers do not work -->
+                    <!--<local:ButtonWithCustomFont Text="Sign In"
+                                                IsEnabled="False"
+                                                Style="{StaticResource ButtonStyle}"
+                                                Command="{Binding SignInCommand}">
+                        <local:ButtonWithCustomFont.Triggers>
+                            <MultiTrigger TargetType="Button">
+                                <MultiTrigger.Conditions>
+                                    <BindingCondition Binding="{Binding Source={x:Reference EmailAddress},
+                                                        Path=Text.Length,
+                                                        Converter={StaticResource dataHasBeenEntered}}" 
+                                                      Value="true" />
+                                    <BindingCondition Binding="{Binding Source={x:Reference EventCode},
+                                                        Path=Text.Length,
+                                                        Converter={StaticResource dataHasBeenEntered}}" 
+                                                      Value="true" />
+                                </MultiTrigger.Conditions>
+                                <Setter Property="IsEnabled" Value="True" />
+                            </MultiTrigger>
+                        </local:ButtonWithCustomFont.Triggers>
+                    </local:ButtonWithCustomFont>-->
+                    
+                    <local:ButtonWithCustomFont Text="Sign In"
+                                                Style="{StaticResource ButtonStyle}"
+                                                Command="{Binding SignInCommand}" />
+                </StackLayout>
+            </StackLayout>
+
     	</Grid>
 	</RelativeLayout>
-</ContentPage>
+</local:PageKeyboardAware>
