@@ -2,24 +2,27 @@
 using Xamarin.Forms;
 using System.Windows.Input;
 using System.Threading.Tasks;
+using FindMe.Models;
+using FindMe.Services;
+using FindMe.Views;
 
 namespace FindMe.ViewModels
 {
     public class SignInViewModel : BaseViewModel
     {
-//        private readonly ITastingService _tastingService;
+        private readonly IEventService _eventService;
         private readonly INavigation _navigation;
 
         public SignInViewModel(INavigation navigation)
         {
             _navigation = navigation;
-//            _tastingService = ServiceLocator.TastingService;
-//
-//            if (Settings.EventCode != null)
-//                _eventCode = Settings.EventCode;
-//
-//            if (Settings.UserEmail != null)
-//                _email = Settings.UserEmail;
+            _eventService = ServiceLocator.EventService;
+
+            //if (Settings.EventCode != null)
+            //    _eventCode = Settings.EventCode;
+
+            //if (Settings.UserEmail != null)
+            //    _email = Settings.UserEmail;
         }
 
         private string _eventCode;
@@ -53,9 +56,9 @@ namespace FindMe.ViewModels
             try
             {
 //                SetupServiceProviderSettings(_eventCode);
-
-
-                if (_email.Trim().Length == 0 || _eventCode.Trim().Length == 0)
+                _email = _email.Trim();
+                _eventCode = _eventCode.Trim();
+                if (_email.Length == 0 || _eventCode.Length == 0)
                 {
                     // Send message to inform user that both email and code are required
                     MessagingCenter.Send(this, "RequiredFieldError");
@@ -63,43 +66,41 @@ namespace FindMe.ViewModels
                     return;
                 }
 
-//                // Call service to load the data for the tasting
-//                await _tastingService.LoadTastingEvent(_eventCode);
-//
-//                // Register user if successful
-//                if (_tastingService.TastingEvent != null)
-//                {
-//                    var tastingId = _tastingService.TastingEvent.Info.Id;
-//                    var user = await _tastingService.RegisterUser(tastingId, _email);
-//
-//                    SaveSignInInfo(_eventCode, user);
-//
-//                    // Identify the device user
-//                    var userInfo = new Dictionary<string, string>
-//                    {
-//                        {"EventCode", _eventCode},
-//                        {"Email", user.Email}
-//                    };
-//                    Insights.Identify(user.Email, userInfo);
-//                }
+                // Call service to load the data for the event
+                await _eventService.LoadEvent(_eventCode);
+
+                if (_eventService.Event != null)
+                {
+                    var eventId = _eventService.Event.Id;
+                    var attendee = await _eventService.GetAttendeeByEmail(_email);
+                    if (attendee == null)
+                    {
+                        var newAttendeePage = new NewAttendeePage();
+                        await _navigation.PushAsync(newAttendeePage);
+                        return;
+                    }
+                    else
+                    {
+                        if (attendee.EventId != eventId)
+                        {
+                            var newEventAttendee = new EventAttendee {EventId = eventId, AttendeeId = attendee.Id};
+                            var eventAttendee = await _eventService.RegisterAttendee(newEventAttendee);
+                        }
+                    }
+
+                    var eventPage = new EventPage();
+                    await _navigation.PushAsync(eventPage);
+                }
             }
             catch (Exception ex)
             {
-//                // Log error in Xamarin.Insights
-//                Insights.Report(ex, Insights.Severity.Error);
-
                 // Send message to inform user that Sign In failed
                 MessagingCenter.Send(this, "SignInFailed");
-
-                return;
             }
             finally
             {
                 IsBusy = false;
             }
-
-            var eventPage = new EventPage();
-            await _navigation.PushAsync(eventPage);
         }
 
 //        private void SetupServiceProviderSettings(string eventCode)

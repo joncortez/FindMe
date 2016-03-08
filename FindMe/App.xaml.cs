@@ -1,4 +1,6 @@
-﻿using Xamarin.Forms;
+﻿using System.Diagnostics;
+using Estimotes;
+using Xamarin.Forms;
 using FindMe.Views;
 
 namespace FindMe
@@ -21,17 +23,25 @@ namespace FindMe
 
         protected override void OnStart()
         {
-            // Handle when your app starts
+            base.OnStart();
+            EstimoteManager.Instance.Initialize()
+                .ContinueWith(x => OnBeaconMgrInit(x.Result));
         }
 
         protected override void OnSleep()
         {
-            // Handle when your app sleeps
+            base.OnSleep();
+            EstimoteManager.Instance.StopAllRanging();
         }
 
         protected override void OnResume()
         {
             // Handle when your app resumes
+        }
+
+        private static void OnBeaconMgrInit(BeaconInitStatus status)
+        {
+            Debug.WriteLine($"Beacon Init Status: {status}");
         }
     }
 }

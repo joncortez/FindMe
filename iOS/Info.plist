@@ -2,7 +2,11 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CFBundleDisplayName</key>
+  <key>RequestWhenInUseAuthorization</key>
+  <string>The beacons have you now!</string>
+  <key>NSLocationAlwaysUsageDescription</key>
+  <string>The beacons always have you!</string>
+  <key>CFBundleDisplayName</key>
 	<string>FindMe</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.neudesic.findme</string>
@@ -50,5 +54,11 @@
 		<string>Fonts/SourceSansPro-Regular.ttf</string>
 		<string>Fonts/SourceSansPro-Semibold.ttf</string>
 	</array>
+  <key>UIBackgroundModes</key>
+  <array>
+    <string>location</string>
+    <string>bluetooth-central</string>
+    <string>bluetooth-peripheral</string>
+  </array>
 </dict>
 </plist>
