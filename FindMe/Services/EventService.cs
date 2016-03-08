@@ -65,7 +65,7 @@ namespace FindMe.Services
                     var url = $"{AppConstants.AwsBaseSvcUrl}/attendees";
                     var contentToPost = new StringContent(JsonConvert.SerializeObject(newAttendee), Encoding.UTF8, "application/json");
                     var response = await client.PostAsync(url, contentToPost);
-                    var json = response.Content.ReadAsStringAsync().Result;
+                    var json = await response.Content.ReadAsStringAsync();
                     var attendee = JsonConvert.DeserializeObject<Attendee>(json);
 
                     return attendee;
@@ -87,10 +87,10 @@ namespace FindMe.Services
                     var url = $"{AppConstants.AwsBaseSvcUrl}/eventattendees";
                     var contentToPost = new StringContent(JsonConvert.SerializeObject(newEventAttendee), Encoding.UTF8, "application/json");
                     var response = await client.PostAsync(url, contentToPost);
-                    var json = response.Content.ReadAsStringAsync().Result;
+                    var json = await response.Content.ReadAsStringAsync();
                     var eventAttendee = JsonConvert.DeserializeObject<EventAttendee>(json);
 
-                    return eventAttendee;
+                    return eventAttendee; // TODO: Investigate why EventAttendee.Id is returning as null
                 }
             }
             catch (Exception ex)

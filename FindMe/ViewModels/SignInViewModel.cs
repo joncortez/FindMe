@@ -77,6 +77,7 @@ namespace FindMe.ViewModels
                     {
                         var newAttendeePage = new NewAttendeePage();
                         await _navigation.PushAsync(newAttendeePage);
+
                         return;
                     }
                     else
