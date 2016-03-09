@@ -21,12 +21,11 @@ namespace FindMe
             MainPage = navPage;
         }
 
-        protected override async void OnStart()
+        protected override void OnStart()
         {
             base.OnStart();
-
-            var status = await EstimoteManager.Instance.Initialize(false);
-
+            EstimoteManager.Instance.Initialize()
+                .ContinueWith(x => OnBeaconMgrInit(x.Result));
         }
 
         protected override void OnSleep()
