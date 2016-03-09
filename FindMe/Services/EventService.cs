@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using FindMe.Configuration;
@@ -14,6 +13,7 @@ namespace FindMe.Services
     public class EventService : IEventService
     {
         public Event Event { get; private set; }
+        public IList<Attendee> Attendees { get; private set; }
 
         public async Task LoadEvent(string eventCode)
         {
@@ -92,17 +92,13 @@ namespace FindMe.Services
             {
                 using (var client = new HttpClient())
                 {
-                    //client.BaseAddress = new Uri($"{AppConstants.AwsBaseSvcUrl}/attendees");
-                    //client.DefaultRequestHeaders.Accept.Clear();
-                    //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                    
                     var url = $"{AppConstants.AwsBaseSvcUrl}/attendees";
                     var contentToPost = new StringContent(JsonConvert.SerializeObject(newAttendee), Encoding.UTF8, "application/json");
                     var response = await client.PostAsync(url, contentToPost);
                     var json = await response.Content.ReadAsStringAsync();
                     var attendee = JsonConvert.DeserializeObject<Attendee>(json);
 
-                    return attendee;
+                    return attendee; // TODO: Investigate why Attendee.Id is returning as null
                 }
             }
             catch (Exception ex)
@@ -134,16 +130,16 @@ namespace FindMe.Services
             }
         }
 
-        public async Task<IList<Attendee>> GetEventAttendees(string eventId)
+        public async Task LoadEventAttendees(string eventId)
         {
             try
             {
                 using (var client = new HttpClient())
                 {
-                    var url = $"{AppConstants.AwsBaseSvcUrl}/attendees/findByEvent/{eventId}";
+                    var url = $"{AppConstants.AwsBaseSvcUrl}/attendees/findEmployeesByEvent/{eventId}";
                     var json = await client.GetStringAsync(url);
                     var result = JsonConvert.DeserializeObject<IList<Attendee>>(json);
-                    return result;
+                    Attendees = result;
                 }
             }
             catch (Exception ex)

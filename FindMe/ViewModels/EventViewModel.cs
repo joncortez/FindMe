@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using FindMe.Services;
 using FindMe.Views;
@@ -8,14 +9,15 @@ namespace FindMe.ViewModels
 {
     public class EventViewModel : BaseViewModel
     {
+        private readonly IEventService _eventService;
         private readonly INavigation _navigation;
 
         public EventViewModel(INavigation navigation)
         {
             _navigation = navigation;
+            _eventService = ServiceLocator.EventService;
 
-            var eventService = ServiceLocator.EventService;
-            var eventInfo = eventService.Event;
+            var eventInfo = _eventService.Event;
 
             _backgroundImgUrl = eventInfo.BackgroundImageUrl;
             _title = eventInfo.WelcomeMessage;
@@ -44,8 +46,16 @@ namespace FindMe.ViewModels
 
         private async Task ExecuteJoinEventCommand()
         {
-            var listPage = new AttendeeListPage();
-            await _navigation.PushAsync(listPage);
+            try
+            {
+                await _eventService.LoadEventAttendees(_eventService.Event.Id);
+                var listPage = new AttendeeListPage();
+                await _navigation.PushAsync(listPage);
+            }
+            catch (Exception)
+            {
+                MessagingCenter.Send(this, "LoadAttendeesFailed");
+            }
         }
     }
 }

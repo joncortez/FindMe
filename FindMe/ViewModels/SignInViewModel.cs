@@ -2,7 +2,6 @@
 using Xamarin.Forms;
 using System.Windows.Input;
 using System.Threading.Tasks;
-using FindMe.Models;
 using FindMe.Services;
 using FindMe.Views;
 

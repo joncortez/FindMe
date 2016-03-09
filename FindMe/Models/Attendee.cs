@@ -33,5 +33,8 @@ namespace FindMe.Models
 
         [JsonProperty("_beacon")]
         public Beacon Beacon { get; set; }
+
+        [JsonIgnore]
+        public string Fullname => $"{FirstName} {LastName}";
     }
 }

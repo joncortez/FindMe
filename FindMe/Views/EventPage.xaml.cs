@@ -21,6 +21,11 @@ namespace FindMe.Views
             NavigationPage.SetBackButtonTitle(this, string.Empty);
 
             ViewModel = new EventViewModel(Navigation);
+
+            MessagingCenter.Subscribe<SignInViewModel>(this, "LoadAttendeesFailed", sender =>
+            {
+                DisplayAlert("Error", "An error occured retrieving attendees for this event. Please try again.", "Ok");
+            });
         }
 
         protected override void OnAppearing()

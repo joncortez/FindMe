@@ -1,6 +1,48 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:FindMe.Views;assembly=FindMe"
+             xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
              x:Class="FindMe.Views.AttendeeListPage">
-  <Label Text="{Binding MainText}" VerticalOptions="Center" HorizontalOptions="Center" />
+
+  <ListView x:Name="ItemsListView"
+              HasUnevenRows="True"
+              SeparatorColor="#ddd"
+              ItemsSource="{Binding Attendees}"
+              IsPullToRefreshEnabled="True"
+              RefreshCommand="{Binding RefreshCommand}"
+              IsRefreshing="{Binding IsRefreshing, Mode=OneWay}">
+
+    <ListView.ItemTemplate>
+      <DataTemplate>
+        <ViewCell>
+          <StackLayout Orientation="Horizontal" Padding="10, 5, 10, 5">
+            <controls:CircleImage BorderColor="Teal"
+                                    BorderThickness="2"
+                                    Source="{Binding HeadshotUrl}">
+              <controls:CircleImage.WidthRequest>
+                <OnPlatform x:TypeArguments="x:Double">
+                  <OnPlatform.iOS>45</OnPlatform.iOS>
+                  <OnPlatform.Android>45 </OnPlatform.Android>
+                  <OnPlatform.WinPhone>65</OnPlatform.WinPhone>
+                </OnPlatform>
+              </controls:CircleImage.WidthRequest>
+              <controls:CircleImage.HeightRequest>
+                <OnPlatform x:TypeArguments="x:Double">
+                  <OnPlatform.iOS>45</OnPlatform.iOS>
+                  <OnPlatform.Android>45</OnPlatform.Android>
+                  <OnPlatform.WinPhone>65</OnPlatform.WinPhone>
+                </OnPlatform>
+              </controls:CircleImage.HeightRequest>
+            </controls:CircleImage>
+            <StackLayout Orientation="Vertical" Padding="10, 0, 0, 0">
+              <Label Text="{Binding Fullname}"></Label>
+              <Label Text="{Binding Email}"></Label>
+            </StackLayout>
+          </StackLayout>
+        </ViewCell>
+      </DataTemplate>
+    </ListView.ItemTemplate>
+    
+  </ListView>
 </ContentPage>
