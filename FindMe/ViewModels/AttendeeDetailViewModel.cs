@@ -30,7 +30,7 @@ namespace FindMe.ViewModels
 
         private async Task ExecuteFindEventCommand()
         {
-            var page = new FindAttendeePage();
+            var page = new FindAttendeePage(Attendee);
             await _navigation.PushAsync(page);
         }
     }

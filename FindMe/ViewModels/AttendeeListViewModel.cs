@@ -11,7 +11,7 @@ namespace FindMe.ViewModels
         private readonly IEventService _eventService;
         private readonly INavigation _navigation;
 
-        public ObservableCollection<Attendee> Attendees { get; set; }
+        public ObservableCollection<Attendee> Attendees { get; }
 
         public AttendeeListViewModel(INavigation navigation)
         {

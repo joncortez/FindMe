@@ -4,6 +4,7 @@ using System.Linq;
 
 using Foundation;
 using ImageCircle.Forms.Plugin.iOS;
+using Syncfusion.SfGauge.XForms.iOS;
 using UIKit;
 
 namespace FindMe.iOS
@@ -16,6 +17,7 @@ namespace FindMe.iOS
             global::Xamarin.Forms.Forms.Init();
 
             ImageCircleRenderer.Init();
+            new SfLinearGaugeRenderer();
 
             LoadApplication(new App());
 

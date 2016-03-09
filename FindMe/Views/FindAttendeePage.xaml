@@ -2,6 +2,18 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:FindMe.Views;assembly=FindMe"
+             xmlns:linear="clr-namespace:Syncfusion.SfGauge.XForms;assembly=Syncfusion.SfGauge.XForms"
              x:Class="FindMe.Views.FindAttendeePage">
-  <Label Text="{Binding Proximity}" VerticalOptions="Center" HorizontalOptions="Center" />
+  
+  <ContentView>
+    <Grid BackgroundColor="White" Padding="10"  >
+      <Grid.RowDefinitions>
+        <RowDefinition Height ="50"/>
+        <RowDefinition Height ="*"/>
+      </Grid.RowDefinitions>
+      <Label x:Name="gettingStarted" Text="Proximity" HorizontalOptions="Center" HeightRequest="50" XAlign="Center" TextColor="Black"  WidthRequest="400"/>
+      <linear:SfLinearGauge x:Name="linearGauge" Grid.Row="1" BackgroundColor="White" Orientation="OrientationVertical" Scales="{Binding Scales}" HeightRequest="400" WidthRequest="400"/>
+    </Grid>
+  </ContentView>
+  
 </ContentPage>

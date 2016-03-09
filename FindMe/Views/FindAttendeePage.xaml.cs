@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FindMe.Models;
 using FindMe.ViewModels;
 using Xamarin.Forms;
 
@@ -16,11 +12,14 @@ namespace FindMe.Views
             set { BindingContext = value; }
         }
 
-        public FindAttendeePage()
+        public FindAttendeePage(Attendee attendee)
         {
             InitializeComponent();
 
-            ViewModel = new RangingViewModel();
+            NavigationPage.SetHasNavigationBar(this, true);
+            NavigationPage.SetBackButtonTitle(this, string.Empty);
+
+            ViewModel = new RangingViewModel(attendee);
         }
 
         protected override void OnDisappearing()
