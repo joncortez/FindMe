@@ -18,8 +18,8 @@
         <ViewCell>
           <StackLayout Orientation="Horizontal" Padding="10, 5, 10, 5">
             <controls:CircleImage BorderColor="Teal"
-                                    BorderThickness="2"
-                                    Source="{Binding HeadshotUrl}">
+                                  BorderThickness="2"
+                                  Source="{Binding HeadshotUrl}">
               <controls:CircleImage.WidthRequest>
                 <OnPlatform x:TypeArguments="x:Double">
                   <OnPlatform.iOS>45</OnPlatform.iOS>

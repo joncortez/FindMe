@@ -22,7 +22,7 @@ namespace FindMe.Views
 
             ViewModel = new EventViewModel(Navigation);
 
-            MessagingCenter.Subscribe<SignInViewModel>(this, "LoadAttendeesFailed", sender =>
+            MessagingCenter.Subscribe<EventViewModel>(this, "LoadAttendeesFailed", sender =>
             {
                 DisplayAlert("Error", "An error occured retrieving attendees for this event. Please try again.", "Ok");
             });
