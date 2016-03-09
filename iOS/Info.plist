@@ -2,14 +2,14 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-  <key>RequestWhenInUseAuthorization</key>
-  <string>This application listen for beacons</string>
-  <key>NSLocationAlwaysUsageDescription</key>
-  <string>This application listen for beacons</string>
-  <key>CFBundleDisplayName</key>
+	<key>RequestWhenInUseAuthorization</key>
+	<string>This application listen for beacons</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>This application listen for beacons</string>
+	<key>CFBundleDisplayName</key>
 	<string>NeuEvents</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.neudesic.neuevents</string>
+	<string>com.neudesic.neuevent</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
