@@ -27,6 +27,11 @@ namespace FindMe.Views
                 {
                     DisplayAlert("Sign In Failed", "Please check the Event Code.", "Ok");
                 });
+
+            MessagingCenter.Subscribe<SignInViewModel>(this, "UnexpectedError", sender =>
+            {
+                DisplayAlert("Error", "An unexpected error occured. Please try again.", "Ok");
+            });
         }
 
         protected override void OnAppearing()

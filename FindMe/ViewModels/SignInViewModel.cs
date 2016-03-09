@@ -72,26 +72,18 @@ namespace FindMe.ViewModels
                 if (_eventService.Event != null)
                 {
                     var eventId = _eventService.Event.Id;
-                    var attendee = await _eventService.GetAttendeeByEmail(_email);
-                    if (attendee == null)
+                    var eventAttendee = await _eventService.RegisterAttendee(eventId, _email);
+                    if (eventAttendee != null)
                     {
-                        var newAttendeePage = new NewAttendeePage();
-                        await _navigation.PushAsync(newAttendeePage);
+                        var eventPage = new EventPage();
+                        await _navigation.PushAsync(eventPage);
 
                         return;
                     }
-                    else
-                    {
-                        if (attendee.EventId != eventId)
-                        {
-                            var newEventAttendee = new EventAttendee {EventId = eventId, AttendeeId = attendee.Id};
-                            var eventAttendee = await _eventService.RegisterAttendee(newEventAttendee);
-                        }
-                    }
-
-                    var eventPage = new EventPage();
-                    await _navigation.PushAsync(eventPage);
                 }
+
+                // Something went wrong...
+                MessagingCenter.Send(this, "UnexpectedError");
             }
             catch (Exception ex)
             {

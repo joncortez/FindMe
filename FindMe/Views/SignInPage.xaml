@@ -6,21 +6,21 @@
 	<ContentPage.Resources>
 		<ResourceDictionary>
 			<Style x:Key="WelcomeStyle" TargetType="Label">
-                <Setter Property="TextColor" Value="White" />
-                <Setter Property="HorizontalTextAlignment" Value="Center" />
-                <Setter Property="FontFamily">
-                    <OnPlatform x:TypeArguments="x:String"
-                        iOS="Source Sans Pro Regular"
-                        Android="SourceSansPro-Regular.ttf"
-                        WinPhone="\Assets\Fonts\SourceSansPro-Regular.ttf#Source Sans Pro Regular" />
-                </Setter>
-                <Setter Property="FontSize">
-                    <OnPlatform x:TypeArguments="x:Double"
-                        iOS="18"
-                        Android="18"
-                        WinPhone="22" />
-                </Setter>
-            </Style>
+              <Setter Property="TextColor" Value="White" />
+              <Setter Property="HorizontalTextAlignment" Value="Center" />
+              <Setter Property="FontFamily">
+                  <OnPlatform x:TypeArguments="x:String"
+                      iOS="Source Sans Pro Regular"
+                      Android="SourceSansPro-Regular.ttf"
+                      WinPhone="\Assets\Fonts\SourceSansPro-Regular.ttf#Source Sans Pro Regular" />
+              </Setter>
+              <Setter Property="FontSize">
+                  <OnPlatform x:TypeArguments="x:Double"
+                      iOS="18"
+                      Android="18"
+                      WinPhone="22" />
+              </Setter>
+          </Style>
             <Style x:Key="LineEntryStyle" TargetType="local:LineEntry">
                 <Setter Property="BorderColor" Value="White" />
                 <Setter Property="PlaceholderColor" Value="White" />

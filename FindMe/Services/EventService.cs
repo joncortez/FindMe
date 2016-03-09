@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using FindMe.Configuration;
@@ -30,6 +31,35 @@ namespace FindMe.Services
             {
                 Debug.WriteLine(ex);
                 throw;
+            }
+        }
+
+        public async Task<Attendee> RegisterAttendee(string eventId, string email)
+        {
+            try
+            {
+                var attendee = await GetAttendeeByEmail(email);
+                if (attendee != null)
+                {
+                    if (attendee.EventId == eventId)
+                        return attendee;
+                }
+                else
+                {
+                    var newAttendee = new Attendee { Email = email };
+                    attendee = await CreateAttendee(newAttendee);
+                    if (attendee == null)
+                        return null;
+                }
+
+                attendee = await GetAttendeeByEmail(email);
+                var newEventAttendee = new EventAttendee { EventId = eventId, AttendeeId = attendee.Id };
+                var eventAttendee = await CreateEventAttendee(newEventAttendee);
+                return eventAttendee != null ? attendee : null;
+            }
+            catch (Exception ex)
+            {
+                return null;
             }
         }
 
@@ -62,6 +92,10 @@ namespace FindMe.Services
             {
                 using (var client = new HttpClient())
                 {
+                    //client.BaseAddress = new Uri($"{AppConstants.AwsBaseSvcUrl}/attendees");
+                    //client.DefaultRequestHeaders.Accept.Clear();
+                    //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    
                     var url = $"{AppConstants.AwsBaseSvcUrl}/attendees";
                     var contentToPost = new StringContent(JsonConvert.SerializeObject(newAttendee), Encoding.UTF8, "application/json");
                     var response = await client.PostAsync(url, contentToPost);
@@ -78,7 +112,7 @@ namespace FindMe.Services
             }
         }
 
-        public async Task<EventAttendee> RegisterAttendee(EventAttendee newEventAttendee)
+        public async Task<EventAttendee> CreateEventAttendee(EventAttendee newEventAttendee)
         {
             try
             {

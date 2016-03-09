@@ -1,8 +1,99 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="FindMe.EventPage">
+             xmlns:local="clr-namespace:FindMe.Views;assembly=FindMe"
+             x:Class="FindMe.Views.EventPage">
+  <ContentPage.Resources>
+    <ResourceDictionary>
+      <Style x:Key="LabelStyle-Bold24" TargetType="Label">
+        <Setter Property="TextColor" Value="White" />
+        <Setter Property="HorizontalTextAlignment" Value="Center" />
+        <Setter Property="FontFamily">
+          <OnPlatform x:TypeArguments="x:String"
+              iOS="Source Sans Pro Bold"
+              Android="SourceSansPro-Bold.ttf"
+              WinPhone="\Assets\Fonts\SourceSansPro-Bold.ttf#Source Sans Pro Bold" />
+        </Setter>
+        <Setter Property="FontSize">
+          <OnPlatform x:TypeArguments="x:Double"
+              iOS="24"
+              Android="24"
+              WinPhone="24" />
+        </Setter>
+        <Setter Property="FontAttributes" Value="Bold" />
+      </Style>
+      <Style x:Key="ButtonStyle" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="TextColor" Value="White" />
+        <Setter Property="BorderColor" Value="White" />
+        <Setter Property="BorderRadius" Value="20" />
+        <Setter Property="BorderWidth" Value="2" />
+        <Setter Property="WidthRequest">
+          <OnPlatform x:TypeArguments="x:Double"
+              iOS="150"
+              Android="150"
+              WinPhone="175" />
+        </Setter>
+        <Setter Property="FontFamily">
+          <OnPlatform x:TypeArguments="x:String"
+              iOS="Source Sans Pro Semibold"
+              Android="SourceSansPro-Semibold.ttf"
+              WinPhone="\Assets\Fonts\SourceSansPro-Semibold.ttf#Source Sans Pro Semibold" />
+        </Setter>
+        <Setter Property="FontSize">
+          <OnPlatform x:TypeArguments="x:Double"
+              iOS="18"
+              Android="18"
+              WinPhone="26" />
+        </Setter>
+        <Setter Property="FontAttributes" Value="Bold" />
+      </Style>
+    </ResourceDictionary>
+  </ContentPage.Resources>
 	<ContentPage.Content>
-    <Label Text="Event Page" VerticalOptions="Center" HorizontalOptions="Center" />
+    
+    <RelativeLayout>
+
+      <Image Aspect="Fill"
+             RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height}"
+             RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width}"
+             Source="{Binding BackgroundImgUrl}">
+      </Image>
+
+      <Grid RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height}"
+            RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width}">
+
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="*" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <StackLayout HorizontalOptions="Center" VerticalOptions="Center" Grid.Row="0" Grid.Column="0">
+          <local:LabelWithCustomFont Text="{Binding Title}"
+                 Style="{StaticResource LabelStyle-Bold24}" />
+          <StackLayout.Padding>
+            <OnPlatform x:TypeArguments="Thickness"
+                        iOS="10, 50, 10, 0"
+                        Android="10, 30, 10, 0"
+                        WinPhone="10, 30, 10, 0" />
+          </StackLayout.Padding>
+        </StackLayout>
+
+        <StackLayout HorizontalOptions="Center" VerticalOptions="Center" Grid.Row="1" Grid.Column="0">
+        </StackLayout>
+
+        <StackLayout HorizontalOptions="Center" VerticalOptions="Center" Grid.Row="2" Grid.Column="0" Padding="0, 0, 0, 30">
+          <local:ButtonWithCustomFont Text="Join Event"
+                  Style="{StaticResource ButtonStyle}"
+                  Command="{Binding JoinEventCommand}" />
+        </StackLayout>
+      </Grid>
+
+    </RelativeLayout>
+    
 	</ContentPage.Content>
 </ContentPage>
