@@ -8,10 +8,12 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 using ImageCircle.Forms.Plugin.Droid;
+using Syncfusion.SfGauge.XForms.Droid;
 
 namespace FindMe.Droid
 {
-    [Activity(Label = "FindMe.Droid", Icon = "@drawable/icon", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    [Activity(Label = "NeuEvents", Icon = "@drawable/icon", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, 
+        ScreenOrientation = ScreenOrientation.Portrait)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsApplicationActivity
     {
         protected override void OnCreate(Bundle bundle)
@@ -21,6 +23,7 @@ namespace FindMe.Droid
             global::Xamarin.Forms.Forms.Init(this, bundle);
 
             ImageCircleRenderer.Init();
+            new SfLinearGaugeRenderer();
 
             LoadApplication(new App());
         }

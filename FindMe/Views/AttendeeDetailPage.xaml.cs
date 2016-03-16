@@ -11,11 +11,13 @@ namespace FindMe.Views
             get { return BindingContext as AttendeeDetailViewModel; }
             set { BindingContext = value; }
         }
+
         public AttendeeDetailPage(Attendee attendee)
         {
             InitializeComponent();
 
-            NavigationPage.SetHasNavigationBar(this, true);
+            var isNavBarVisible = (Device.OS == TargetPlatform.iOS);
+            NavigationPage.SetHasNavigationBar(this, isNavBarVisible);
             NavigationPage.SetBackButtonTitle(this, string.Empty);
 
             ViewModel = new AttendeeDetailViewModel(Navigation, attendee);
