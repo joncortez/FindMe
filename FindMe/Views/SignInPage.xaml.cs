@@ -19,14 +19,20 @@ namespace FindMe.Views
             ViewModel = new SignInViewModel(Navigation);
 
             MessagingCenter.Subscribe<SignInViewModel>(this, "RequiredFieldError", sender =>
-                {
-                    DisplayAlert("Sign In Failed", "Email Address and Event Code are both required.", "Ok");
-                });
+            {
+                DisplayAlert("Sign In Failed", "Email Address and Event Code are both required.", "Ok");
+            });
+
+            MessagingCenter.Subscribe<SignInViewModel>(this, "InvalidEmailFormat", sender =>
+            {
+                DisplayAlert("Invalid Email", "Please check the email format.", "Ok");
+            });
+
 
             MessagingCenter.Subscribe<SignInViewModel>(this, "SignInFailed", sender =>
-                {
-                    DisplayAlert("Sign In Failed", "Please check the Event Code.", "Ok");
-                });
+            {
+                DisplayAlert("Sign In Failed", "Please check the Event Code.", "Ok");
+            });
 
             MessagingCenter.Subscribe<SignInViewModel>(this, "UnexpectedError", sender =>
             {
@@ -37,9 +43,9 @@ namespace FindMe.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
-
-//            Insights.Track(AppConstants.SignInPage);
         }
     }
 }
+
+
 

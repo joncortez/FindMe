@@ -4,6 +4,7 @@ using System.Windows.Input;
 using System.Threading.Tasks;
 using FindMe.Services;
 using FindMe.Views;
+using System.Text.RegularExpressions;
 
 namespace FindMe.ViewModels
 {
@@ -16,12 +17,6 @@ namespace FindMe.ViewModels
         {
             _navigation = navigation;
             _eventService = ServiceLocator.EventService;
-
-            //if (Settings.EventCode != null)
-            //    _eventCode = Settings.EventCode;
-
-            //if (Settings.UserEmail != null)
-            //    _email = Settings.UserEmail;
         }
 
         private string _eventCode;
@@ -54,7 +49,6 @@ namespace FindMe.ViewModels
 
             try
             {
-//                SetupServiceProviderSettings(_eventCode);
                 _email = _email.Trim();
                 _eventCode = _eventCode.Trim();
                 if (_email.Length == 0 || _eventCode.Length == 0)
@@ -62,6 +56,17 @@ namespace FindMe.ViewModels
                     // Send message to inform user that both email and code are required
                     MessagingCenter.Send(this, "RequiredFieldError");
 
+                    return;
+                }
+
+                const string emailRegex = @"^(?("")("".+?(?<!\\)""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))" +
+                    @"(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9][\-a-z0-9]{0,22}[a-z0-9]))$";
+                
+                if (!Regex.IsMatch(_email, emailRegex, RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250)))
+                {
+                    // Send message to inform user that email has invalid format
+                    MessagingCenter.Send(this, "InvalidEmailFormat");
+                
                     return;
                 }
 
@@ -94,47 +99,8 @@ namespace FindMe.ViewModels
                 IsBusy = false;
             }
         }
-
-//        private void SetupServiceProviderSettings(string eventCode)
-//        {
-//
-//
-//            if (_eventCode.EndsWith("1"))
-//            {
-//                Settings.ServiceURL = AppConstants.AWSTastingBaseSvcUrl;
-//                Settings.DisplaySurvey = false;
-//            }
-//            else
-//            {
-//                Settings.ServiceURL = AppConstants.AzureBaseSvcUrl;
-//                Settings.DisplaySurvey = true;
-//            }
-//
-//
-//
-//        }
-//
-//        private static void SaveSignInInfo(string eventCode, TastingUser user)
-//        {
-//            var clearCachedVotes = false;
-//
-//            if (Settings.EventCode != null && Settings.UserEmail != null)
-//            {
-//                if (!String.Equals(eventCode, Settings.EventCode, StringComparison.CurrentCultureIgnoreCase))
-//                    clearCachedVotes = true;
-//
-//                if (!String.Equals(user.Email, Settings.UserEmail, StringComparison.CurrentCultureIgnoreCase))
-//                    clearCachedVotes = true;
-//            }
-//
-//            Settings.EventCode = eventCode;
-//            Settings.UserEmail = user.Email;
-//            Settings.UserId = user.Id;
-//
-//            if (clearCachedVotes)
-//                Settings.VotesCastedJson = null;
-//        }
     }
-
 }
+
+
 
